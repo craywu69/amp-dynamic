@@ -13,43 +13,55 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-const express = require('express');
-const multer = require('multer');
-const products = require('./products');
+const express = require("express");
+const multer = require("multer");
+const products = require("./products");
 
 const upload = multer();
 const app = express();
 
 app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['*']);
-  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.append('Access-Control-Allow-Headers', 'Content-Type');
-  res.append('AMP-Access-Control-Allow-Source-Origin', process.env.URL);
-  res.append('Access-Control-Expose-Headers', ['AMP-Access-Control-Allow-Source-Origin']);
+  res.append("Access-Control-Allow-Origin", ["*"]);
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.append("Access-Control-Allow-Headers", "Content-Type");
+  res.append("AMP-Access-Control-Allow-Source-Origin", process.env.URL);
+  res.append("Access-Control-Expose-Headers", [
+    "AMP-Access-Control-Allow-Source-Origin"
+  ]);
   next();
 });
 
 // This serves static files from the specified directory
 // app.use(express.static(__dirname + '/public'));
 
-app.get('/products/filter', (req, res) => {
-  const filterType = req.query.category || 'all';
-  const sortValue = req.query.sort || 'price-desc';
-  const itemId = req.query.itemId || 'all';
+app.get("/products/filter", (req, res) => {
+  const filterType = req.query.category || "all";
+  const sortValue = req.query.sort || "price-desc";
+  const itemId = req.query.itemId || "all";
   // const products = fs.readFileSync(__dirname + '/public/json/products.json');
   const productsJSON = JSON.parse(products);
-  const filteredItems = productsJSON.items.filter(item => filterType == 'all' ? true : item.type == filterType);
-  const sortedFilteredItems = filteredItems.sort((a, b) => sortValue == 'price-asc' ? a.price - b.price : b.price - a.price);
-  let filteredProducts = { "items": sortedFilteredItems }
-  if (itemId != 'all') {
-    filteredProducts = { "items": productsJSON.items.filter(item => item.id == itemId) };
-  };
+  const filteredItems = productsJSON.items.filter(item =>
+    filterType == "all" ? true : item.type == filterType
+  );
+  const sortedFilteredItems = filteredItems.sort((a, b) =>
+    sortValue == "price-asc" ? a.price - b.price : b.price - a.price
+  );
+  let filteredProducts = { items: sortedFilteredItems };
+  if (itemId != "all") {
+    filteredProducts = {
+      items: productsJSON.items.filter(item => item.id == itemId)
+    };
+  }
   res.send(JSON.stringify(filteredProducts));
 });
 
-app.post('/submit-form', upload.array(), (req, res) => {
-  res.append('Content-Type', 'application/json');
-  res.send(JSON.stringify(req.body));
+app.post("/submit-form", upload.array(), (req, res) => {
+  res.append("Content-Type", "application/json");
+  fakeRes = { name: "test", email: "test@example.com" };
+  myRes = JSON.stringify(fakeRes);
+
+  res.send(myRes);
+  console.log("submit res:" + myRes);
 });
 
 // const server = app.listen(8081, '127.0.0.1', () => {
