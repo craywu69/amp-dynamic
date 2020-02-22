@@ -27,7 +27,7 @@
       name="viewport"
       content="width=device-width,minimum-scale=1,initial-scale=1"
     />
-    <link rel="canonical" href="https://aquamarine-baritone.glitch.me/" />
+    <link rel="canonical" href="./" />
 
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
 
@@ -45,6 +45,42 @@
       async
       custom-element="amp-social-share"
       src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"
+    ></script>
+    <script
+      async
+      custom-template="amp-mustache"
+      src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"
+    ></script>
+
+    <script
+      async
+      custom-element="amp-sidebar"
+      src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"
+    ></script>
+    <script
+      async
+      custom-element="amp-form"
+      src="https://cdn.ampproject.org/v0/amp-form-0.1.js"
+    ></script>
+    <script
+      async
+      custom-element="amp-accordion"
+      src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"
+    ></script>
+    <script
+      async
+      custom-element="amp-selector"
+      src="https://cdn.ampproject.org/v0/amp-selector-0.1.js"
+    ></script>
+    <script
+      async
+      custom-element="amp-image-lightbox"
+      src="https://cdn.ampproject.org/v0/amp-image-lightbox-0.1.js"
+    ></script>
+    <script
+      async
+      custom-element="amp-lightbox-gallery"
+      src="https://cdn.ampproject.org/v0/amp-lightbox-gallery-0.1.js"
     ></script>
 
     <style amp-custom>
@@ -481,16 +517,84 @@
     </style>
   </head>
   <body>
-    <header class="headerbar"><h2>Chico's Cheese Bicycles</h2></header>
+    <header class="headerbar">
+      <div
+        role="button"
+        on="tap:header-sidebar.toggle"
+        tabindex="0"
+        class="navbar-trigger"
+      >
+        ☰
+      </div>
+      <h2>Chico's Cheese Bicycles</h2>
+    </header>
+
+    <amp-sidebar
+      id="header-sidebar"
+      class="sidebar"
+      layout="nodisplay"
+      side="left"
+    >
+      <div
+        role="button"
+        on="tap:header-sidebar.toggle"
+        tabindex="0"
+        class="navbar-trigger"
+      >
+        ✕
+      </div>
+      <ul class="label">
+        <li class="nav-item"><a href="#">Our Story</a></li>
+        <li class="nav-item nav-dropdown">
+          <amp-accordion
+            layout="container"
+            disable-session-states=""
+            class="dropdown"
+          >
+            <section>
+              <header>Our Bikes</header>
+              <ul class="dropdown-items">
+                <li class="dropdown-item"><a href="#">Ricotta Racer</a></li>
+                <li class="dropdown-item"><a href="#">Cheddar Chaser</a></li>
+                <li class="dropdown-item"><a href="#">Parmesan Pacer</a></li>
+              </ul>
+            </section>
+          </amp-accordion>
+        </li>
+        <li class="nav-item nav-dropdown">
+          <amp-accordion
+            layout="container"
+            disable-session-states=""
+            class="dropdown"
+          >
+            <section>
+              <header>Latest Models</header>
+              <ul class="dropdown-items">
+                <li class="dropdown-item"><a href="#">Ricotta Racer</a></li>
+              </ul>
+            </section>
+          </amp-accordion>
+        </li>
+        <li class="nav-item"><a href="#">Contact</a></li>
+      </ul>
+    </amp-sidebar>
 
     <main>
       <div class="main-content">
+        <amp-image-lightbox
+          id="ricotta-racer-lightbox"
+          layout="nodisplay"
+        ></amp-image-lightbox>
         <amp-img
+          on="tap:ricotta-racer-lightbox"
+          role="button"
+          tabindex="0"
           src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fricotta-racer.jpg?1540228217746"
           layout="responsive"
           width="640"
           height="480"
         ></amp-img>
+
         <div class="below-hero">
           <h2 class="main-heading">What we're about</h2>
           <p class="main-text">
@@ -501,6 +605,9 @@
           </p>
 
           <amp-carousel
+            on="slideChange:ampSelector.toggle(index=event.index)"
+            lightbox
+            id="imageSlides"
             layout="responsive"
             width="412"
             height="309"
@@ -526,6 +633,45 @@
               layout="responsive"
             ></amp-img>
           </amp-carousel>
+          <amp-selector id="ampSelector">
+            <amp-carousel
+              layout="fixed-height"
+              height="78"
+              class="thumbnail-carousel"
+            >
+              <amp-img
+                option="0"
+                selected
+                on="tap:imageSlides.goToSlide(index=0)"
+                role="button"
+                tabindex="1"
+                src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fcheddar-chaser-thumb.jpg?1540228250623"
+                width="96"
+                height="72"
+                layout="fixed"
+              ></amp-img>
+              <amp-img
+                option="1"
+                on="tap:imageSlides.goToSlide(index=1)"
+                role="button"
+                tabindex="1"
+                src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fcheese-thumb.jpg?1540228249992"
+                width="96"
+                height="72"
+                layout="fixed"
+              ></amp-img>
+              <amp-img
+                option="2"
+                on="tap:imageSlides.goToSlide(index=2)"
+                role="button"
+                tabindex="1"
+                src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fmouse-thumb.jpg?1540228249062"
+                width="96"
+                height="72"
+                layout="fixed"
+              ></amp-img>
+            </amp-carousel>
+          </amp-selector>
 
           <amp-youtube
             data-videoid="BlpMQ7fMCzA"
@@ -535,6 +681,47 @@
           >
             <div fallback><p>The video could not be loaded.</p></div>
           </amp-youtube>
+
+          <h2 class="main-heading">Subscribe to our Newsletter</h2>
+
+          <div class="subscribe-card-container">
+            <div class="subscribe-card">
+              <form
+                method="post"
+                class="main-form"
+                action-xhr="/submit-form"
+                target="_top"
+              >
+                <div class="input">
+                  <input type="text" id="form-name" name="name" required />
+                  <label for="form-name" aria-hidden="true">
+                    Enter your Name
+                  </label>
+                </div>
+                <div class="input">
+                  <input type="email" id="form-email" name="email" required />
+                  <label for="form-email" aria-hidden="true">
+                    Enter your Email
+                  </label>
+                </div>
+                <input type="submit" value="Subscribe" class="btn" />
+                <div submit-success>
+                  <template type="amp-mustache">
+                    <p class="form-submit-response">
+                      Success! Thanks {{ name }} for subscribing!
+                    </p>
+                  </template>
+                </div>
+                <div submit-error>
+                  <template type="amp-mustache">
+                    <p class="form-submit-response">
+                      Uh-oh, there was an error!
+                    </p>
+                  </template>
+                </div>
+              </form>
+            </div>
+          </div>
 
           <div class="social-bar">
             <amp-social-share
