@@ -29,7 +29,64 @@
     />
     <link rel="canonical" href="./" />
 
-    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <style amp-boilerplate>
+      body {
+        -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+      }
+      @-webkit-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-moz-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-ms-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-o-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+    </style>
+    <noscript
+      ><style amp-boilerplate>
+        body {
+          -webkit-animation: none;
+          -moz-animation: none;
+          -ms-animation: none;
+          animation: none;
+        }
+      </style></noscript
+    >
 
     <script
       async
@@ -81,6 +138,11 @@
       async
       custom-element="amp-lightbox-gallery"
       src="https://cdn.ampproject.org/v0/amp-lightbox-gallery-0.1.js"
+    ></script>
+    <script
+      async
+      custom-element="amp-bind"
+      src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"
     ></script>
 
     <style amp-custom>
@@ -603,9 +665,16 @@
             hungry. Our bikes are 100% biodegradable. And with our new
             rodent-repelling varnish they last longer than ever!
           </p>
-
+          <amp-state id="carousel">
+            <script type="application/json">
+              {
+                "selectedSlide": 0
+              }
+            </script>
+          </amp-state>
           <amp-carousel
-            on="slideChange:ampSelector.toggle(index=event.index)"
+            on="slideChange:AMP.setState({carousel: {selectedSlide:event.index}})"
+            [slide]="carousel.selectedSlide"
             lightbox
             id="imageSlides"
             layout="responsive"
@@ -633,45 +702,49 @@
               layout="responsive"
             ></amp-img>
           </amp-carousel>
-          <amp-selector id="ampSelector">
+          <amp-selector
+            id="ampSelector"
+            [selected]="carousel.selectedSlide"
+            on="select:AMP.setState({carousel: {selectedSlide:event.targetOption}})"
+          >
             <amp-carousel
               layout="fixed-height"
               height="78"
               class="thumbnail-carousel"
             >
               <amp-img
+                src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fcheddar-chaser-thumb.jpg?1540228250623"
                 option="0"
                 selected
-                on="tap:imageSlides.goToSlide(index=0)"
                 role="button"
                 tabindex="1"
-                src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fcheddar-chaser-thumb.jpg?1540228250623"
                 width="96"
                 height="72"
                 layout="fixed"
               ></amp-img>
               <amp-img
-                option="1"
-                on="tap:imageSlides.goToSlide(index=1)"
-                role="button"
-                tabindex="1"
                 src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fcheese-thumb.jpg?1540228249992"
+                option="1"
+                role="button"
+                tabindex="1"
                 width="96"
                 height="72"
                 layout="fixed"
               ></amp-img>
               <amp-img
+                src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fmouse-thumb.jpg?1540228249062"
                 option="2"
-                on="tap:imageSlides.goToSlide(index=2)"
                 role="button"
                 tabindex="1"
-                src="https://cdn.glitch.com/d7f46a57-0ca4-4cca-ab0f-69068dec6631%2Fmouse-thumb.jpg?1540228249062"
                 width="96"
                 height="72"
                 layout="fixed"
               ></amp-img>
             </amp-carousel>
           </amp-selector>
+          <p [text]="’Slide ‘ + (carousel.selectedSlide + 1) + ‘ of 3’">
+            Slide 1 of 3
+          </p>
 
           <amp-youtube
             data-videoid="BlpMQ7fMCzA"
